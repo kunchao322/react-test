@@ -3,8 +3,8 @@ import axios from "axios";
 // const TUITS_API = "https://cs5500-01-sp22.herokuapp.com/api/tuits";
 // const USERS_API = "https://cs5500-01-sp22.herokuapp.com/api/users";
 
-const TUITS_API = "https://software-engineering-node-kc.herokuapp.com/tuits";
-const USERS_API = "https://software-engineering-node-kc.herokuapp.com/users";
+const TUITS_API = "https://react-test-node.herokuapp.com/api/tuits";
+const USERS_API = "https://react-test-node.herokuapp.com/api/users";
 
 
 export const findAllTuits = () =>
