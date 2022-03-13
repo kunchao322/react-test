@@ -104,7 +104,6 @@ describe('findUserById',  () => {
   });
 });
 
-
 describe('findAllUsers',  () => {
 
   // sample users we'll insert to then retrieve
@@ -127,9 +126,14 @@ describe('findAllUsers',  () => {
   // clean up after ourselves
   afterAll(() =>
     // delete the users we inserted
-    usernames.map(username =>
-      deleteUsersByUsername(username)
-    )
+    // usernames.map(username =>
+    //   deleteUsersByUsername(username)
+    // )
+      Promise.all(
+          usernames.map(username =>
+            deleteUsersByUsername(username)
+          )
+      )
   );
 
   test('can retrieve all users from REST API', async () => {
