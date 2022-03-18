@@ -36,7 +36,7 @@ describe('can create tuit with REST API', () => {
             expect(newTuit.stats.likes).toEqual(tuit.stats.likes);
             expect(newTuit.stats.retuits).toEqual(tuit.stats.retuits);
             expect(newTuit.stats.replies).toEqual(tuit.stats.replies);
-            deleteTuit(newTuit._id);
+            await deleteTuit(newTuit._id);
         }
     } )
 });
@@ -106,7 +106,8 @@ describe('can retrieve all tuits with REST API', () => {
     ];
 
     // setup data before test
-    beforeAll(() =>
+    beforeAll(
+        () =>
         // insert several known users
         usernames.map(username =>
             createUser({
@@ -125,7 +126,7 @@ describe('can retrieve all tuits with REST API', () => {
         ))
     );
 
-    test('can retrieve all users from REST API', async () => {
+    test('can retrieve all tuits from REST API', async () => {
         const tuitsBefore = await  findAllTuits();
         expect(tuitsBefore.length).toBeGreaterThanOrEqual(0);
 
@@ -148,8 +149,9 @@ describe('can retrieve all tuits with REST API', () => {
         });
         expect(userIds.length).toEqual(usernames.length);
 
-
+        //each user creates a tuit to test
         let i = 0;
+        const tuitsId_test = [];
         for(const tuit of data) {
             const newUser = await findUserById(userIds[i]);
             const newTuit = await createTuit(newUser._id, tuit);
@@ -158,10 +160,17 @@ describe('can retrieve all tuits with REST API', () => {
             expect(newTuit.stats.likes).toEqual(tuit.stats.likes);
             expect(newTuit.stats.retuits).toEqual(tuit.stats.retuits);
             expect(newTuit.stats.replies).toEqual(tuit.stats.replies);
+            tuitsId_test.push(newTuit._id);
         }
 
         const tuitsAfter = await  findAllTuits();
         expect(tuitsAfter.length).toEqual(tuitsBefore.length + usernames.length);
+        expect(tuitsId_test.length).toEqual(usernames.length);
+        //delete tests tuit
+        for(const tuitsId of tuitsId_test){
+            await  deleteTuit(tuitsId);
+        }
+
 
     });
 });
